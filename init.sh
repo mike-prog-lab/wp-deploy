@@ -12,7 +12,7 @@ VOLUMES=("wp-deploy-db" "wp-deploy-app")
 
 for VOLUME in "${VOLUMES[@]}"
 do
-  if (( $(sudo docker volume ls | grep "$VOLUME")  )); then
+  if (( $(sudo /usr/bin/docker volume ls | grep "$VOLUME")  )); then
     sudo /usr/bin/docker volume create "$VOLUME"
   fi
 done
