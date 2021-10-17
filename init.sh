@@ -12,7 +12,7 @@ VOLUMES=("wp-deploy-db" "wp-deploy-app")
 
 for VOLUME in "${VOLUMES[@]}"
 do
-  if (( ! $(sudo /usr/bin/docker volume ls | grep "$VOLUME") )); then
-    sudo /usr/bin/docker volume create "$VOLUME"
+  if [[ $(sudo /usr/bin/docker volume ls | grep "$VOLUME") == "" ]]; then
+    echo "Volume \"$(sudo /usr/bin/docker volume create "$VOLUME")\" created."
   fi
 done
