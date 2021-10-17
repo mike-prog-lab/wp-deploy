@@ -1,0 +1,51 @@
+version: "3.7"
+
+networks:
+  backend:
+    driver: bridge
+  host:
+    driver: host
+
+volumes:
+  wp-deploy-db:
+    external: true
+  wp-deploy-app:
+    external: true
+
+services:
+  database:
+    build:
+      context: ./mysql
+    volumes:
+      - wp-deploy-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306"
+    networks:
+      - backend
+  app:
+    build:
+      context: ./
+    links:
+      - database:mariadb
+    volumes:
+      - wp-deploy-app:/bitnami/wordpress
+    environment:
+      WORDPRESS_USERNAME: ${WORDPRESS_USERNAME}
+      WORDPRESS_PASSWORD: ${WORDPRESS_PASSWORD}
+      WORDPRESS_EMAIL: ${WORDPRESS_EMAIL}
+      WORDPRESS_FIRST_NAME: ${WORDPRESS_FIRST_NAME}
+      WORDPRESS_LAST_NAME: ${WORDPRESS_LAST_NAME}
+      WORDPRESS_BLOG_NAME: ${WORDPRESS_BLOG_NAME}
+      WORDPRESS_DATABASE_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DATABASE_USER: ${MYSQL_USER}
+      WORDPRESS_DATABASE_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "8443:8443"
+      - "8080:8080"
+    networks:
+      - backend
