@@ -54,7 +54,7 @@ services:
     networks:
       - backend
   app:
-    image: ghcr.io/mike-prog-lab/wp-deploy/mysql
+    image: ghcr.io/mike-prog-lab/wp-deploy/wp-app
     deploy:
       replicas: 2
       mode: replicated
