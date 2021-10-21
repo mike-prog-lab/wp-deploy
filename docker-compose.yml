@@ -35,10 +35,10 @@ services:
         condition: any
       resources:
         limits:
-          cpus: 0.5
+          cpus: '0.5'
           memory: 50M
         reservations:
-          cpus: 0.25
+          cpus: '0.25'
           memory: 25M
     volumes:
       - type: volume
@@ -65,10 +65,10 @@ services:
         max_attempts: 3
       resources:
         limits:
-          cpus: 0.4
+          cpus: '0.4'
           memory: 50M
         reservations:
-          cpus: 0.3
+          cpus: '0.3'
           memory: 25M
       rollback_config:
         parallelism: 1
