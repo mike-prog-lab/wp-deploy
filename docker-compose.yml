@@ -2,9 +2,7 @@ version: "3.8"
 
 networks:
   backend:
-    driver: bridge
-  host:
-    driver: host
+    driver: overlay
 
 volumes:
   app-source:
