@@ -25,7 +25,7 @@ services:
           cpus: '0.25'
           memory: 512M
     volumes:
-      - type: volume
+      - type: bind
         source: /mnt/mysql
         target: /var/lib/mysql
         volume:
@@ -65,7 +65,7 @@ services:
     links:
       - database:mariadb
     volumes:
-      - type: volume
+      - type: bind
         source: /mnt/wp-data
         target: /bitnami/wordpress
         volume:
