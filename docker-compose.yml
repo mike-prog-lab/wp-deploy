@@ -41,6 +41,8 @@ services:
       - backend
   app:
     image: ghcr.io/mike-prog-lab/wp-deploy/wp-app
+    depends_on:
+      - database
     deploy:
       replicas: 2
       mode: replicated
