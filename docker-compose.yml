@@ -2,12 +2,16 @@ version: "3.8"
 
 networks:
   backend:
+<<<<<<< Updated upstream
     driver: overlay
 
 volumes:
   app-source:
   db-data:
 #  portainer-data:
+=======
+    driver: bridge
+>>>>>>> Stashed changes
 
 services:
   database:
