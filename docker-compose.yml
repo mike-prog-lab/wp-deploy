@@ -20,10 +20,10 @@ services:
       resources:
         limits:
           cpus: '0.5'
-          memory: 1024M
+          memory: 300M
         reservations:
           cpus: '0.25'
-          memory: 512M
+          memory: 250M
     volumes:
       - type: bind
         source: /mnt/mysql
@@ -41,8 +41,6 @@ services:
       - backend
   app:
     image: ghcr.io/mike-prog-lab/wp-deploy/wp-app
-    depends_on:
-      - database
     deploy:
       replicas: 2
       mode: replicated
