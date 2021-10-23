@@ -28,8 +28,6 @@ services:
       - type: bind
         source: /mnt/mysql
         target: /var/lib/mysql
-        volume:
-          nocopy: true
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -66,8 +64,6 @@ services:
       - type: bind
         source: /mnt/wp-data
         target: /bitnami/wordpress
-        volume:
-          nocopy: true
     environment:
       MARIADB_HOST: database
       WORDPRESS_USERNAME: ${WORDPRESS_USERNAME}
