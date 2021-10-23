@@ -1,23 +1,33 @@
-version: "3.7"
+version: "3.8"
 
 networks:
   backend:
-    driver: bridge
-  host:
-    driver: host
+    driver: overlay
 
 volumes:
-  wp-deploy-db:
-    external: true
-  wp-deploy-app:
-    external: true
+  app-source:
+  db-data:
+#  portainer-data:
 
 services:
   database:
-    build:
-      context: ./mysql
+    image: ghcr.io/mike-prog-lab/wp-deploy/mysql
+    deploy:
+      replicas: 1
+      mode: replicated
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 300M
+        reservations:
+          cpus: '0.25'
+          memory: 250M
     volumes:
-      - wp-deploy-db:/var/lib/mysql
+      - type: bind
+        source: /mnt/mysql
+        target: /var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -28,13 +38,34 @@ services:
     networks:
       - backend
   app:
-    build:
-      context: ./
-    links:
-      - database:mariadb
+    image: ghcr.io/mike-prog-lab/wp-deploy/wp-app
+    deploy:
+      replicas: 2
+      mode: replicated
+      restart_policy:
+        condition: any
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '0.4'
+          memory: 50M
+        reservations:
+          cpus: '0.3'
+          memory: 25M
+      rollback_config:
+        parallelism: 1
+        failure_action: pause
+        order: start-first
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
     volumes:
-      - wp-deploy-app:/bitnami/wordpress
+      - type: bind
+        source: /mnt/wp-data
+        target: /bitnami/wordpress
     environment:
+      MARIADB_HOST: database
       WORDPRESS_USERNAME: ${WORDPRESS_USERNAME}
       WORDPRESS_PASSWORD: ${WORDPRESS_PASSWORD}
       WORDPRESS_EMAIL: ${WORDPRESS_EMAIL}

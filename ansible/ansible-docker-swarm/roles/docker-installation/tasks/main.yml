@@ -1,0 +1,29 @@
+---
+- name: Install yum utils
+  yum:
+    name: yum-utils
+    state: latest
+
+- name: Install device-mapper-persistent-data
+  yum:
+    name: device-mapper-persistent-data
+    state: latest
+
+- name: Ddd Docker packages to Repository
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+  tags: docker
+
+- name: Install Docker Dependencies
+  package:
+    name: docker-ce
+    state: latest
+  tags: docker
+
+- name: Run Docker Service
+  service:
+    name: docker
+    enabled: true
+    state: started
+  tags: docker

@@ -1,0 +1,10 @@
+---
+- name: Install Packages
+  yum: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - ntp
+    - python
+    - tcpdump
+    - wget
+    - openssl
+    - curl
