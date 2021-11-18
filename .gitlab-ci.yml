@@ -1,5 +1,12 @@
 stages:
+  - hello
   - build
+
+echo-hello:
+  image: docker:latest
+  stage: hello
+  script:
+    - echo "Hello from pipeline!"
 
 docker-build:
   image: docker:latest
